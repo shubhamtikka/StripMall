@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Home Page";
+
+    SelectList Locations = ViewBag.Locations;
+
+    SelectList shopTypes = ViewBag.shopTypes;
+
+}
+
+<div class="container-fluid" style="background-color:rgba(158, 255, 239, 0.51)">
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            @using (Html.BeginForm("PropChanged", "Home", FormMethod.Get))
+            {
+                <div class="d-inline m-1">
+                    <b style="text-decoration-color:#3D3D3D">Location :</b>
+                    @Html.DropDownList("Location", @Locations, "Choose Location", new { onchange = @"form.submit();", @class = "btn btn-info btn-sm m-1" })
+                </div>
+                <div class="d-inline m-1">
+                    <b style="text-decoration-color:#3D3D3D">ShopType :</b>
+                    @Html.DropDownList("type", shopTypes, "Choose ShopType", new { onchange = @"form.submit();", @class = "btn btn-info btn-sm m-1" })
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            @using (Html.BeginForm("SearchItem", "Home", FormMethod.Post, new { @class = "m-1" }))
+            {
+                <div class="input-group mb-3">
+                    @Html.TextBox("searchTerm", null, new { @class = "", @placeholder = "Search Item", @autocomplete = "on" })
+
+                    <div class="input-group-append">
+                        <input class="btn btn-primary btn-sm" style="display: inline-block" type="submit" value="Search" />
+                    </div>
+                    </div>
+                    }
+                </div>
+
+            </div>
+</div>
+<br />
+
+@if (Model.Any())
+{
+      <div class="row">
+          @foreach (var shop in Model)
+          {
+          var photoPath = "~/images/shop/" + (shop.PhotoPath ?? "no_image.png");
+
+          <div class="col-md-4">
+              <div class="card m-1">
+                  <div class="card-header">
+                      <h6 class="mb-0">
+                          @shop.ShopName
+                      </h6>
+                      @shop.TypeName, @shop.LocName
+                  </div>
+                  <div class="card-body">
+                      <img src="@photoPath" style="height:150px; width:auto"
+                           asp-append-version="true" />
+                  </div>
+                  <div class="card-footer">
+
+                      @if (shop.IsShopOpen)
+                      {
+                          <a asp-action="SeeItems" asp-controller="Home"
+                             asp-route-id="@shop.Id"
+                             class="btn btn-primary m-1">See Items</a>
+                      }
+                      else
+                      {
+                          <p>Shop is not available for Orders!</p>
+                      }
+                  </div>
+              </div>
+          </div>
+          }
+      </div>
+}
+else
+{
+    <h3> No Shop found!</h3>
+}

@@ -1,0 +1,41 @@
+﻿@model  IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+}
+<a class="btn btn-primary" asp-action="AddSeller">Add new shop</a>
+<hr/>
+
+<div class="row">
+    <div class="col-md-9">
+        <h5 style="text-align:center" class="m-3">Available shops on the System </h5>
+        <Table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Shop Name
+                    </th>
+                    <th>
+                        Location
+                    </th>
+
+                    <th>
+                        Shop Type
+                    </th>
+                </tr>
+            </thead>
+            @foreach (ApplicationUser user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.ShopName</td>
+                    <td>@user.LocName</td>
+                    <td>@user.TypeName</td>
+                </tr>
+            }
+        </Table>
+    </div>
+</div>
+

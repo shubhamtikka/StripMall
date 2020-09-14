@@ -1,0 +1,39 @@
+﻿@model IEnumerable<StripMall.Models.Feedback>
+
+@{
+    ViewData["Title"] = "ShowFeedBacks";
+}
+
+<h3>FeedBacks</h3>
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th>
+               Customer
+            </th>
+            <th>
+                FeedBack
+            </th>
+            <th>
+                Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeedBackText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date.Date)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>

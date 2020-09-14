@@ -1,0 +1,38 @@
+﻿
+@model IEnumerable<Items>
+@{
+    ViewData["Title"] = "Show Items";
+    SelectList categories = ViewBag.Categories;
+
+}
+
+@using (Html.BeginForm("ShowItemsNew", "Home", FormMethod.Get))
+{
+    @Html.DropDownList("category", categories, "Choose Category", new { onchange = @"form.submit();" })
+
+}
+
+@if (Model.Any())
+{
+    foreach (var item in Model)
+    {
+        var photoPath = "~/images/item/" + (item.PhotoPath ?? "no_ItemImage.png");
+
+        <div class="card mb-1">
+            <div class="card-header">
+                Price : @item.ItemPrice Rs.
+            </div>
+            <div class="card-body">
+                <img src="@photoPath" height="150" width="150"
+                     asp-append-version="true" />
+            </div>
+            <div class="card-footer">
+                <a asp-action="DeleteItem" asp-controller="sell"
+                   asp-route-Iid="@item.ItemsId"
+                   class="btn btn-success btn-block m-1">Delete Items</a>
+            </div>
+        </div>
+    }
+}
+
+

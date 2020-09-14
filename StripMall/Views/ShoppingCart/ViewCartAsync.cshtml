@@ -1,0 +1,68 @@
+﻿@model IEnumerable<StripMall.Models.ShoppingCartItem>
+
+@{
+    ViewData["Title"] = "ViewCartAsync";
+
+    double CartTotal = Model.Sum(Model => Model.ItemTotal);
+}
+
+@if (Model.Any())
+{
+<h2>Your Cart</h2>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemTotal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemTotal)
+                </td>
+                <td>
+                    @Html.ActionLink("+1", "InCountAsync", new { Uid = item.CustomerId, Iid = item.Item }, new { @class = "btn btn-success btn-sm" }) |
+                    @Html.ActionLink("-1", "DecCountAsync", new { Uid = item.CustomerId, Iid = item.Item }, new { @class = "btn btn-success btn-sm" }) |
+                    @Html.ActionLink("Remove", "DelFromCartAsync", new { Uid = item.CustomerId, Iid = item.Item }, new { @class = "text-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p>Total : @CartTotal Rs</p>
+
+<a class="btn btn-primary m-1" asp-action="PlaceOrderAsync" asp-controller="Order">Place Order</a>
+}
+else
+{
+    <h3>Your Cart is empty! </h3>
+    <a asp-action="Index" asp-controller="Home">Back to home page</a>
+
+}
+
+
+

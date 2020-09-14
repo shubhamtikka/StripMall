@@ -1,0 +1,35 @@
+﻿@model Feedback
+@{
+    ViewData["Title"] = "About Us";
+}
+<div class="row">
+    <div class="col-md-6">
+    <h2>StripMall</h2>
+    </div>
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+    {
+    <div class="col-md-6" style="background-color:slategrey">
+        <h3>Provide us your valuable feedback</h3>
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                @if (ViewBag.IsPost == null)
+                {
+                    <h6><label>FeedBack : </label></h6>
+                    <textarea asp-for="FeedBackText"  class="form-control" rows="5" placeholder="Enter Feedback Here"></textarea>
+                }
+                else
+                {
+                    <h6><label asp-for="FeedBackText">FeedBack : </label></h6>
+                    <textarea asp-for="FeedBackText" text="" class="form-control" rows="5" placeholder="Enter Feedback Here">
+                                </textarea>
+                }
+
+                <span asp-validation-for="FeedBackText" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success m-2" style="width:auto">Submit</button>
+            <br/>
+        </form>
+    </div>
+    }
+</div>

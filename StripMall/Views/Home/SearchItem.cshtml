@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Items>
+
+@{
+    ViewData["Title"] = "SearchItem";
+    SelectList listItems = new SelectList(Enumerable.Range(1, 10), 1);
+}
+
+
+
+@using (Html.BeginForm())
+{
+    <b>Search for item: </b>
+    @Html.TextBox("searchTerm", null, new { id = "txtSearch", @autocomplete="on"})
+
+    <input type="submit" class="btn btn-sm btn-primary" value="Search" />
+}
+<hr/>
+@if (Model != null)
+{
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                var photoPath = "~/images/item/" + (item.PhotoPath ?? "no_ItemImage.png");
+
+                <div class="col-sm-3">
+                    <div class="card" style="height:auto; width:200px">
+                        <div class="card-header">
+                            <h6>
+                                @item.Seller.ShopName , Location:@item.Seller.LocName <br />
+                            </h6>
+                        </div>
+                        <img class="card-img-top imageThumbnail" src="@photoPath"
+                             style="height:150px; width:auto" asp-append-version="true" />
+
+                        <div class="card-footer text-center">
+                            <a asp-action="ItemDetails" asp-controller="Sell" asp-route-id="@item.ItemsId"><h6>@item.ItemName</h6></a>
+                            Price: @item.ItemPrice Rs
+                            @if (item.Seller.IsShopOpen)
+                            {
+                                @if (item.IsInStock == true)
+                                {
+                                    @using (Html.BeginForm("AddToCart", "ShoppingCart", new { id = item.ItemsId }, FormMethod.Post))
+                                    {
+                                        @Html.DropDownList("amt", listItems)
+                                        <button type="submit" class="btn btn-success m-1 btn-sm">
+                                            Add To Cart
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    <a class="btn btn-primary m-1" Disabled>OutOfStock</a>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-danger">Shop is unavailable for orders!</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h3>Item not found!</h3>
+    }
+}
+else
+{
+    if (ViewBag.IsPost)
+    {
+        <h3>Enter something to search!</h3>
+    }
+}
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+        $("#txtSearch").autocomplete(
+            source: '@Url.Action("JQGetItems")'
+        );
+    }
+    </script>
+}

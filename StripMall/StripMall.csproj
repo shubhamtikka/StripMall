@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <StartupObject></StartupObject>
+    <UserSecretsId>af650504-d65b-409f-9b79-d398c0d4a85a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\ItemsController.cs" />
+    <Compile Remove="Migrations\20200417181701_ShopTypeUpdate.cs" />
+    <Compile Remove="Migrations\20200417181701_ShopTypeUpdate.Designer.cs" />
+    <Compile Remove="Models\Cart.cs" />
+    <Compile Remove="Models\ICartRepository.cs" />
+    <Compile Remove="Models\ItemsMap.cs" />
+    <Compile Remove="Models\SQLCartRepository.cs" />
+    <Compile Remove="ViewModels\AddLocationViewModel.cs" />
+    <Compile Remove="ViewModels\CreateRoleViewModel.cs" />
+    <Compile Remove="Views\Sell\ShowItems.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Home\ContactUs.cshtml" />
+    <Content Remove="Views\Sell\ShowItems.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Telegram.Bot.AspNetCore" Version="1.0.7" />
+  </ItemGroup>
+
+</Project>

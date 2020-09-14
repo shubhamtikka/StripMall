@@ -1,0 +1,63 @@
+﻿@model IEnumerable<StripMall.Models.OrderDetails>
+
+@{
+    ViewData["Title"] = "ViewOrder";
+    var OrderTotal = Model.Sum(Model => Model.ItemTotal);
+    var id = Model.Select(Model => Model.OrderId).Distinct().FirstOrDefault();
+}
+<br/>
+<h3>OrderId : @id</h3>
+<hr/>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShopName)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemTotal)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShopName)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemTotal)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <h6 class="alert alert-info">Order Total : @OrderTotal</h6>
+    </div>
+</div>
+
+
+<a asp-action="Index" asp-controller="Home">Back to Home page</a>

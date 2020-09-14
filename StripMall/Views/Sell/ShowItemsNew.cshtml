@@ -1,0 +1,99 @@
+﻿@model IEnumerable<StripMall.Models.Items>
+
+@{
+    ViewData["Title"] = "ShowItemsNew";
+    SelectList categories = ViewBag.Categories;
+}
+
+<a asp-action="AddItems" class="btn btn-primary">Add New Item</a>
+<br/><br/>
+
+@using (Html.BeginForm("ShowItemsNew", "Home", FormMethod.Get))
+{
+    @Html.DropDownList("category", categories, "Choose Category", new { onchange = @"form.submit();", @class="btn-outline-success"})
+
+}
+<br/>
+@if (Model.Any())
+{
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+               Item
+            </th>
+
+            <th>
+               Price
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.category)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IsInStock)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemPrice)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.category.CategoryName)
+            </td>
+
+            <td>
+                @if (item.IsInStock)
+                {
+                    <a class="btn btn-light btn-sm" asp-action="ChangeStatusAsync"
+                       asp-route-id="@item.ItemsId">OutOfStock?</a>
+                }
+                else
+                {
+                    <a class="btn btn-dark btn-sm" asp-action="ChangeStatusAsync"
+                       asp-route-id="@item.ItemsId">BackInStock?</a>
+                }
+
+            </td>
+            <td>
+                <a asp-action="EditItems" class="d-inline btn btn-primary btn-sm" asp-route-id="@item.ItemsId">Edit</a> |
+                <a asp-action="ItemDetails" class="d-inline btn btn-primary btn-sm" asp-route-id="@item.ItemsId">Details</a> |
+                <form asp-action="DeleteItem" class="d-inline" asp-route-id="@item.ItemsId" method="post">
+                    <span id="ConfirmDelSpan_@item.ItemsId" style="display:none">
+                        <span>Are you sure you want to delete?</span>
+                        <button type="submit" class="btn btn-danger btn-sm">Yes</button>
+                        <a href="#" class="btn btn-primary btn-sm"
+                           onclick="confirmDelete('@item.ItemsId', false)">No</a>
+                    </span>
+                    <span id="DelSpan_@item.ItemsId">
+                        <a href="#" class="btn btn-danger btn-sm"
+                           onclick="confirmDelete('@item.ItemsId', true)">Delete</a>
+                    </span>
+                </form>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+
+else
+{
+    <h4>No Items added yet!</h4>
+}
+
+@section Scripts{
+    <script src="~/js/site.js"></script>
+}

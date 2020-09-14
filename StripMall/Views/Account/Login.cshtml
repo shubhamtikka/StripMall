@@ -1,0 +1,50 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+@if(TempData["msg"] != null)
+{
+    <p class="alert alert-info">@TempData["msg"]</p>
+}
+
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 mt-3">
+
+        <div class="" style="background-color:lightslategrey; border:medium">
+            <br />
+            <h3 class="text-light m-2">Log in </h3>
+            <hr style="border-top: 1px solid white"/>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group m-2">
+                    <label asp-for="EmailId" class="text-light"></label>
+                    <input asp-for="EmailId" class="form-control" />
+                    <span asp-validation-for="EmailId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group m-2">
+                    <label asp-for="Password" class="text-light"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group m-2">
+                    <label asp-for="RememberMe" class="text-light text-">
+                        <input asp-for="RememberMe" />
+                        @Html.DisplayNameFor(m => m.RememberMe)
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary ml-2" type="submit">Login</button>
+                </div>
+            </form>
+            <hr style="border-top: 1px solid white" />  
+            <p class="m-2 text-light mb-2"> New here? then <a style="text-decoration-line:underline" class="bg-light" asp-action="Register">Register</a></p>
+            <br />
+        </div>
+    </div>
+</div>

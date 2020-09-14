@@ -1,0 +1,58 @@
+﻿@model IEnumerable<StripMall.Models.OrderDetails>
+
+@{
+    ViewData["Title"] = "ViewOrderAsync";
+
+    var Total = Model.Sum(Model => Model.ItemTotal);
+}
+
+<h3>Customer : @ViewBag.UserId.</h3>
+<h5>OrderId : @ViewBag.OrderId.</h5>
+<hr/>
+
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemCount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemTotal)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemCount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemTotal)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr/>
+
+<b class="alert alert-success">Total : @Total </b>

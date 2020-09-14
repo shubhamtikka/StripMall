@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Items>
+@{
+    ViewData["Title"] = "Items";
+    SelectList listItems = new SelectList(Enumerable.Range(1, 10), 1);
+    SelectList categories = ViewBag.Categories;
+}
+
+<h2>@ViewBag.shopName</h2>
+<div style="background-color:rgba(158, 255, 239, 0.51)">
+    <hr />
+    @using (Html.BeginForm("SeeItems", "Home", FormMethod.Get))
+    {
+        @Html.DropDownList("category", categories, "Choose Category", new { onchange = @"form.submit();", @class = "btn-success ml-3" })
+    }
+    <hr />
+</div>
+
+    @if (TempData["added"] != null)
+    {
+        <p class="alert alert-success">@TempData["added"] <a asp-action="ViewCartAsync" asp-controller="ShoppingCart">Show cart</a>.</p>
+    }
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                var photoPath = "~/images/item/" + (item.PhotoPath ?? "no_ItemImage.png");
+
+                <div class="col-sm-3 mb-2">
+                    <div class="card m-1">
+                        
+                        <img class="card-img-top imageThumbnail" src="@photoPath"
+                             style="height:150px; width:auto" asp-append-version="true" />
+                        <hr class="m-0"/>
+                        <div class="card-body text-center">
+                            <div class="card-title">
+                                <a asp-action="ItemDetails" asp-controller="Sell" asp-route-id="@item.ItemsId"><h5>@item.ItemName</h5></a>
+                            </div>
+                            Price: @item.ItemPrice Rs
+                            @if (item.Seller.IsShopOpen)
+                            {
+                                @if (item.IsInStock == true)
+                                {
+                                    @using (Html.BeginForm("AddToCart", "ShoppingCart", new { id = item.ItemsId }, FormMethod.Post))
+                                    {
+                                        @Html.DropDownList("amt", listItems)
+                                        <button type="submit" class="btn btn-success m-1 btn-sm">
+                                            Add To Cart
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark m-1 text-light" title="Item is currently not available in shop" Disabled>Out Of Stock</a>
+                                }
+                            }
+                            else
+                            {
+                                <p class="text-danger">Shop is unavailable for orders!</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <h4>No items found!</h4>
+    }
