@@ -1,1 +1,3 @@
 # StripMall
+
+This project is basically online shopping portal, where customer can choose the shop they want to buy. Seller will contact admin to make his selling account. after this seller can log in and start adding items to sell and manage thise items. Admin will be resposible for adding new shop, new item category, new locations. When customer will place the order it will notify seller via email and delivery executives on their telegram group.
